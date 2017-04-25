@@ -4,15 +4,27 @@ const nunjucks = require("nunjucks")
 // const http = require("http")
 // var server = http.createServer();
 
-nunjucks.configure("views");
+const people = [{name: 'My'},{name: 'Bills'},{name: 'Be'}, {name: 'Stacking'}, {name: 'Cuz'}];
+// res.render( 'index', {title: 'Hall of Fame', people: people} );
+
+var locals = {
+	title: "An Example",
+	people: [
+	{name: 'Gandalf'},
+	{name: 'Frodo'}, 
+	{name: 'Hermione'}
+	]
+};
+
+nunjucks.configure("views", {noCache: true});
 app.set("view engine", "html");
 app.engine("html", nunjucks.render);
 
-app.get("/", function (req,res,next){
+app.use("/", function (req,res,next){
 	if(res.status === 200){
 		console.log(res.status)
 	}
-	next();
+	res.render( 'index', {title: "What's Happening?", people: people} );
 });
 
 app.get("/", function (req, res){
@@ -33,20 +45,13 @@ app.get("/hello", function (req,res){
 	})
 });
 
+
 app.listen(3000, function(){
 	console.log("Server listening");
 });
 
 
 
-var locals = {
-	title: "An Example",
-	people: [
-	{name: 'Gandalf'},
-	{name: 'Frodo'}, 
-	{name: 'Hermione'}
-	]
-};
 
 
 // app.get(“/workshops”, function (req, res, next){
