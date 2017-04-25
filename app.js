@@ -1,11 +1,12 @@
 const express = require ("express");
 const app = express();
 const nunjucks = require("nunjucks")
-// const http = require("http")
-// var server = http.createServer();
+const routes = require ("./routes");
+
+app.use("/", routes);
+
 
 const people = [{name: 'My'},{name: 'Bills'},{name: 'Be'}, {name: 'Stacking'}, {name: 'Cuz'}];
-// res.render( 'index', {title: 'Hall of Fame', people: people} );
 
 var locals = {
 	title: "An Example",
@@ -20,30 +21,36 @@ nunjucks.configure("views", {noCache: true});
 app.set("view engine", "html");
 app.engine("html", nunjucks.render);
 
-app.use("/", function (req,res,next){
-	if(res.status === 200){
-		console.log(res.status)
-	}
-	res.render( 'index', {title: "What's Happening?", people: people} );
-});
+// app.get("/stylesheets/style.css", function(req, res, next){
+// 	res.sendFile(__dirname+ "/public/stylesheets/style.css");
+// });
 
-app.get("/", function (req, res){
-	res.send("Welcome!")
-});
+app.use(express.static(__dirname + "/public"))
 
-app.get("/is-anybody-in-there", function (req,res){
-	console.log("Nobody is here.")
-});
+// app.use("/", function (req,res,next){
+// 	if(res.status === 200){
+// 		console.log(res.status)
+// 	}
+// 	res.render( 'index', {title: "What's Happening?", people: people} );
+// });
 
-app.post("modernism", function (req, res){
-	console.log("Modernism")
-});
+// app.get("/", function (req, res){
+// 	res.send("Welcome!")
+// });
 
-app.get("/hello", function (req,res){
-	nunjucks.render("index.html",locals, function(error, output){
-		res.send("output");
-	})
-});
+// app.get("/is-anybody-in-there", function (req,res){
+// 	console.log("Nobody is here.")
+// });
+
+// app.post("modernism", function (req, res){
+// 	console.log("Modernism")
+// });
+
+// app.get("/hello", function (req,res){
+// 	nunjucks.render("index.html",locals, function(error, output){
+// 		res.send("output");
+// 	})
+// });
 
 
 app.listen(3000, function(){
